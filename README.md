@@ -1,6 +1,6 @@
 # download
 
-A new Flutter project.
+A Flutter Demo Project for downloading file from url with dio package.
 
 ## Getting Started
 
