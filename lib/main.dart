@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'File Download',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.deepPurple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const MyHomePage(title: 'File Download'),
     );
@@ -84,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
@@ -93,6 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               'Download file',
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -101,13 +103,13 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: url,
-                decoration: const InputDecoration(label: Text('Url')),
+                decoration: const InputDecoration(label: Text('URL')),
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            OutlinedButton(
+            ElevatedButton(
               onPressed: () async {
                 setState(() {
                   _downloading = true;
