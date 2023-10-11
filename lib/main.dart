@@ -52,32 +52,59 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<File?> downloadFile(String url, String name) async {
-    // final appStorage = await getExternalStorageDirectory();
+    final appStorage = await getExternalStorageDirectory();
     // final appStorage = await getTemporaryDirectory();
-    final appStorage = await getApplicationDocumentsDirectory();
-    final file = File('${appStorage.path}/$name');
+    // final appStorage = await getApplicationDocumentsDirectory();
+    // String dirPath = '${appStorage!.path}/new_directory';
+    // Directory newDirectory = Directory(dirPath);
+
+    // if (!newDirectory.existsSync()) {
+    //   newDirectory.createSync();
+    // }
+
+    // final file = File('${newDirectory.path}/$name');
+
+    final file = File('${appStorage!.path}/$name');
+    print(file);
 
     try {
-      final response = await Dio().get(url,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-          ), onReceiveProgress: (received, total) {
+      await Dio().download(url, file.path,
+          onReceiveProgress: (received, total) {
         if (total != -1) {
           setState(() {
             _progress = received / total;
           });
         }
       });
-
-      final raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
-
       return file;
     } catch (e) {
       return null;
     }
+
+    // try {
+    //   // await newDirectory.create();
+    //   final response = await Dio().get(url,
+    //       options: Options(
+    //         responseType: ResponseType.bytes,
+    //         followRedirects: false,
+    //       ), onReceiveProgress: (received, total) {
+    //     if (total != -1) {
+    //       setState(() {
+    //         _progress = received / total;
+    //       });
+    //     }
+    //   });
+
+    //   print('Response data length: ${response.data.length}');
+
+    //   final raf = file.openSync(mode: FileMode.write);
+    //   raf.writeFromSync(response.data);
+    //   await raf.close();
+    //   print('File downloaded and saved at: ${file.path}');
+    //   return file;
+    // } catch (e) {
+    //   return null;
+    // }
   }
 
   @override
